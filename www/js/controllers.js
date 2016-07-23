@@ -4,6 +4,7 @@ angular.module('project_unify.controllers', [])
     $scope.sendFriendshipRequest = function (user) {
       friendshipService.get({friend_id: user.id}, function (data) {
         console.log(data);
+        $rootScope.friendship_request_message = data.message;
       });
     }
   })
