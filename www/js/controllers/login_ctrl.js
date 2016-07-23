@@ -36,8 +36,8 @@ projectUnify.controller('LoginController', function ($q,
 
   function doLogin() {
     //Extract to factory?
-    var url = 'https://unify-develop.herokuapp.com/api/v1/users/auth/facebook';
-    var callbackUrl = 'https://unify-develop.herokuapp.com/api/v1/users/auth/facebook/callback';
+    var url = 'http://localhost:3000/api/v1/users/auth/facebook';
+    var callbackUrl = 'http://localhost:3000/api/v1/users/auth/facebook/callback';
     var deferred = $q.defer();
     var dialog = window.open(url, '_blank', 'hidden=yes');
     dialog.addEventListener("loadstop", function (event) {

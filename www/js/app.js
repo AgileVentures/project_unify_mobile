@@ -11,7 +11,7 @@ projectUnify.config(function ($ionicConfigProvider) {
     $ionicConfigProvider.tabs.position('bottom');
   })
 
-  .constant('API_URL', 'https://unify-develop.herokuapp.com/api/v1')
+  .constant('API_URL', 'http://localhost:3000/api/v1')
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -111,6 +111,16 @@ projectUnify.config(function ($ionicConfigProvider) {
           'messaging': {
             templateUrl: 'templates/messaging/messaging.html',
             controller: 'MessageCtrl'
+          }
+        }
+      })
+
+      .state('tab.friends',{
+        url: '/friends',
+        views: {
+          'friends': {
+            templateUrl: 'templates/friends/friends.html',
+            controller: 'FriendCtrl'
           }
         }
       })
