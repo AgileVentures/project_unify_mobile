@@ -5,7 +5,7 @@ projectUnify.controller('FriendCtrl', function ($scope,
                                                  $ionicModal,
                                                  $timeout,
                                                  userService,
-                                                 messageService) {
+                                                 friendService) {
 
   $scope.$on('$ionicView.enter', function () {
     $scope.currentUser = $rootScope.currentUser.user;
@@ -15,15 +15,10 @@ projectUnify.controller('FriendCtrl', function ($scope,
 
 
   $scope.allPendingFriends = function () {
-    // messageService.getConversations(function (data) {
-    //   $scope.conversations = data.conversations;
-    //   console.log($scope.conversations);
-    // })
     friendService.pendingFriends(function(data){
-      $scope.pendingFriends = data;
+      $scope.pendingFriends = data.users;
       console.log(data);
     })
-    
   };
 
 

@@ -86,19 +86,22 @@ angular.module('project_unify.services', [])
     });
     return feed
   })
-  .factory('friendService', function ($rootScope, $resource, API_URL) {
-    // var friends = function(){
-    //   var headers = {'X-User-Email': $rootScope.currentUser.user.email, 'X-User-Token': $rootScope.currentUser.user.token}
-    //   var friendship = $resource(API_URL + '/user/' + $rootScope.currentUser.user.id + '/pending_friendships/index', {}, {
-    //    get: {
-    //       headers: headers
-    //     }
-    //   });
-    //   console.log(friendship);
-    //   return friendship;
-    //  } 
-    return {pendingFriends: function(){return "yada";}}
+
+  .factory('friendService', function ($rootScope, $resource, $http,API_URL) {
+    var headers = {'X-User-Email': $rootScope.currentUser.user.email, 'X-User-Token': $rootScope.currentUser.user.token}
+    // var friendship = $resource(API_URL + '/user/' + $rootScope.currentUser.user.id + '/pending_friendships/index ', {}, {
+    //   get: {
+    //     headers: headers
+    //   }
+    // });
+    var apiUrl = API_URL + '/user/' + $rootScope.currentUser.user.id + '/pending_friendships/index'
+    return {
+      pendingFriends: function(callback){
+        $http.get(apiUrl, {headers: headers}).success(callback);
+      }
+    }
   })
+
   .factory('friendshipService', function ($rootScope, $resource, API_URL) {
     var headers = {'X-User-Email': $rootScope.currentUser.user.email, 'X-User-Token': $rootScope.currentUser.user.token}
     var friendship = $resource(API_URL + '/user/' + $rootScope.currentUser.user.id + '/friendship/:friend_id ', {}, {
