@@ -96,8 +96,16 @@ angular.module('project_unify.services', [])
     // });
     var apiUrl = API_URL + '/user/' + $rootScope.currentUser.user.id + '/pending_friendships/index'
     return {
+      friends: function(callback){
+        var friendsUrl = API_URL + '/user/' + $rootScope.currentUser.user.id + '/friendships/index'
+        $http.get(friendsUrl, {headers: headers}).success(callback);
+      },
       pendingFriends: function(callback){
         $http.get(apiUrl, {headers: headers}).success(callback);
+      },
+      acceptFriend: function(friend_id, callback){
+        var acceptFriendUrl = API_URL + '/user/' + $rootScope.currentUser.user.id + '/friendship/'+friend_id+'/confirm'
+        $http.get(acceptFriendUrl, {headers: headers}).success(callback);
       }
     }
   })

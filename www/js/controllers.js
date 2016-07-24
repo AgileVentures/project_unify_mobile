@@ -1,10 +1,17 @@
 angular.module('project_unify.controllers', [])
 
-  .controller('FriendshipCtrl', function ($rootScope, $scope, friendshipService) {
+  .controller('FriendshipCtrl', function ($rootScope, $scope, friendshipService, friendService) {
     $scope.sendFriendshipRequest = function (user) {
       friendshipService.get({friend_id: user.id}, function (data) {
         console.log(data);
         $rootScope.friendship_request_message = data.message;
+      });
+    }
+
+    $scope.confirmFriendshipRequest = function (user) {
+      friendService.acceptFriend(user.id, function (data) {
+        console.log(data);
+//        $rootScope.friendship_confirmation_message = data.message;
       });
     }
   })

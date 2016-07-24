@@ -11,7 +11,7 @@ projectUnify.config(function ($ionicConfigProvider) {
     $ionicConfigProvider.tabs.position('bottom');
   })
 
-  .constant('API_URL', 'http://localhost:3000/api/v1')
+  .constant('API_URL', 'https://unify-develop.herokuapp.com/api/v1')
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
