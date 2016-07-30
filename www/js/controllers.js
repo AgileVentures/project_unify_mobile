@@ -11,7 +11,14 @@ angular.module('project_unify.controllers', [])
     $scope.confirmFriendshipRequest = function (user) {
       friendService.acceptFriend(user.id, function (data) {
         console.log(data);
-//        $rootScope.friendship_confirmation_message = data.message;
+        rootScope.friendship_confirmation_message = data.message;
+      });
+    }
+
+    $scope.blockFriendshipRequest = function (user) {
+      friendService.blockFriend(user.id, function (data) {
+        console.log(data);
+        rootScope.friendship_block_message = data.message;
       });
     }
   })

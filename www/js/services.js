@@ -106,6 +106,10 @@ angular.module('project_unify.services', [])
       acceptFriend: function(friend_id, callback){
         var acceptFriendUrl = API_URL + '/user/' + $rootScope.currentUser.user.id + '/friendship/'+friend_id+'/confirm'
         $http.get(acceptFriendUrl, {headers: headers}).success(callback);
+      },
+      blockFriend: function(friend_id, callback){
+        var blockFriendUrl = API_URL + '/user/' + $rootScope.currentUser.user.id + '/friendship/'+friend_id+'/block'
+        $http.get(blockFriendUrl, {headers: headers}).success(callback);
       }
     }
   })

@@ -18,7 +18,9 @@
         <!-- We are not sending city and country -->
         <small ng-if="friend.city">{{friend.city}}, {{friend.country}} </small>
         <small ng-repeat="skill in friend.skills">{{skill}} </small>
-        <button style='float: right; top: -15px;' class="button button-icon calm" ng-controller="FriendshipCtrl" ng-click="confirmFriendshipRequest(pendingFriend)" ng-style="{'font-size': '12px'}"> Accept request
+        <button style='float: right; top: -15px;' class="button button-icon calm" ng-controller="FriendshipCtrl" ng-click="confirmFriendshipRequest(friend)" ng-style="{'font-size': '12px'}">Accept request
+        </button>
+        <button style='float: right; top: -15px;' class="button button-icon calm" ng-controller="FriendshipCtrl" ng-click="blockFriendshipRequest(friend)" ng-style="{'font-size': '12px'}">Block
         </button>
       </div>
     </div>
