@@ -5,6 +5,7 @@ angular.module('project_unify.controllers', [])
       friendshipService.get({friend_id: user.id}, function (data) {
         console.log(data);
         $rootScope.friendship_request_message = data.message;
+        $rootScope.requestJustSent = true;
       });
     }
 
@@ -44,6 +45,7 @@ angular.module('project_unify.controllers', [])
     $rootScope.friendship_block_message = undefined;
     $rootScope.friendship_request_message = undefined;
     $rootScope.friendship_confirmation_message = undefined;
+    $rootScope.requestJustSent = false;
 
     $scope.activityFeed = feedService.get();
     $scope.user = $stateParams.user;
@@ -74,7 +76,8 @@ angular.module('project_unify.controllers', [])
     //horrible hacking!
     if ($scope.user && ($scope.user.id != $scope.currentUser.id)){
       $scope.isNotFriend = !$scope.user.friends.map(function(u){return u.id;}).includes($scope.currentUser.id);
-      $scope.hasInvitedCurrentUser = !$scope.user.friends.map(function(u){return u.id;}).includes($scope.currentUser.id);
+      $scope.hasInvitedCurrentUser = !$scope.user.pending_invited_friendships.map(function(u){return u.id;}).includes($scope.currentUser.id);
+      $scope.requestPending = $scope.user.pending_friendships.map(function(u){return u.id;}).includes($scope.currentUser.id);
     }
 
     $scope.unifyMe = function (id) {
