@@ -76,7 +76,7 @@ angular.module('project_unify.controllers', [])
     //horrible hacking!
     if ($scope.user && ($scope.user.id != $scope.currentUser.id)){
       $scope.isNotFriend = !$scope.user.friends.map(function(u){return u.id;}).includes($scope.currentUser.id);
-      $scope.hasInvitedCurrentUser = !$scope.user.pending_invited_friendships.map(function(u){return u.id;}).includes($scope.currentUser.id);
+      $scope.hasInvitedCurrentUser = $scope.user.pending_invited_friendships.map(function(u){return u.id;}).includes($scope.currentUser.id);
       $scope.requestPending = $scope.user.pending_friendships.map(function(u){return u.id;}).includes($scope.currentUser.id);
     }
 
