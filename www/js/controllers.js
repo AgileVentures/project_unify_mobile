@@ -13,6 +13,7 @@ angular.module('project_unify.controllers', [])
       friendService.acceptFriend(user.id, function (data) {
         console.log(data);
         $rootScope.friendship_confirmation_message = data.message;
+        $rootScope.justConfirmedFriendship = true;
       });
     }
 
@@ -20,6 +21,7 @@ angular.module('project_unify.controllers', [])
       friendService.blockFriend(user.id, function (data) {
         console.log(data);
         $rootScope.friendship_block_message = data.message;
+        $rootScope.justBlockedFriendship = true;
       });
     }
   })
@@ -46,6 +48,8 @@ angular.module('project_unify.controllers', [])
     $rootScope.friendship_request_message = undefined;
     $rootScope.friendship_confirmation_message = undefined;
     $rootScope.requestJustSent = false;
+    $rootScope.justBlockedFriendship = false;
+    $rootScope.justConfirmedFriendship = false;
 
     $scope.activityFeed = feedService.get();
     $scope.user = $stateParams.user;
@@ -78,6 +82,7 @@ angular.module('project_unify.controllers', [])
       $scope.isNotFriend = !$scope.user.friends.map(function(u){return u.id;}).includes($scope.currentUser.id);
       $scope.hasInvitedCurrentUser = $scope.user.pending_invited_friendships.map(function(u){return u.id;}).includes($scope.currentUser.id);
       $scope.requestPending = $scope.user.pending_friendships.map(function(u){return u.id;}).includes($scope.currentUser.id);
+      $scope.blockedByCurrentUser = $scope.user.blocked_by_current_user;
     }
 
     $scope.unifyMe = function (id) {

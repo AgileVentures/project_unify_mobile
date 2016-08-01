@@ -10,19 +10,20 @@
     <div class="list card profile-top text-center">
       <div class="item item-text-wrap">
         <div ng-if="hasInvitedCurrentUser">
-          <button ng-if="hasInvitedCurrentUser" class="button button-icon ion-checkmark calm" ng-controller="FriendshipCtrl" ng-click="confirmFriendshipRequest(user)" ng-style="{'font-size': '12px'}"> Accept request
+          <button ng-if="hasInvitedCurrentUser && !justConfirmedFriendship && !justBlockedFriendship" class="button button-icon ion-checkmark calm" ng-controller="FriendshipCtrl" ng-click="confirmFriendshipRequest(user)" ng-style="{'font-size': '12px'}"> Accept request
           </button>
-          <button ng-if="hasInvitedCurrentUser" class="button button-icon ion-close" ng-controller="FriendshipCtrl" ng-click="blockFriendshipRequest(user)" ng-style="{'font-size': '12px'}">Block
+          <button ng-if="hasInvitedCurrentUser && !justConfirmedFriendship && !justBlockedFriendship" class="button button-icon ion-close assertive" ng-controller="FriendshipCtrl" ng-click="blockFriendshipRequest(user)" ng-style="{'font-size': '12px'}">&nbspBlock
           </button>
         </div>
         <span>{{friendship_request_message}}</span>
         <span>{{friendship_confirmation_message}}</span>
         <span>{{friendship_block_message}}</span>
         <span ng-if="requestPending">Your request for friendship is pending.</span>
-        <span ng-if="hasInvitedCurrentUser">This user has requested to be your friend.</span>
+        <span ng-if="blockedByCurrentUser">You have blocked this user.</span>
+        <span ng-if="hasInvitedCurrentUser && !justConfirmedFriendship && !justBlockedFriendship">This user has requested to be your friend.</span>
         <button ng-if="user == currentUser" class="button button-icon ion-edit calm" ng-click="openSkills()" ng-style="{'font-size': '12px'}"> Edit profile
         </button>
-        <button ng-if="(user != currentUser) && isNotFriend && !requestPending  && !requestJustSent && !hasInvitedCurrentUser" class="button button-icon ion-edit calm" ng-controller="FriendshipCtrl" ng-click="sendFriendshipRequest(user)" ng-style="{'font-size': '12px'}"> Add as friend
+        <button ng-if="(user != currentUser) && isNotFriend && !requestPending  && !requestJustSent && !hasInvitedCurrentUser && !blockedByCurrentUser" class="button button-icon ion-edit calm" ng-controller="FriendshipCtrl" ng-click="sendFriendshipRequest(user)" ng-style="{'font-size': '12px'}"> Add as friend
         </button>
         <img gravatar-src="user.email" class="avatar-profile">
         <h2 class="font-thin">{{user.user_name}}</h2>
