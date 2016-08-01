@@ -15,7 +15,7 @@
         <button ng-if="user == currentUser" class="button button-icon ion-edit calm" ng-click="openSkills()" ng-style="{'font-size': '12px'}"> Edit
           profile
         </button>
-        <button ng-if="user != currentUser" class="button button-icon ion-edit calm" ng-controller="FriendshipCtrl" ng-click="sendFriendshipRequest(user)" ng-style="{'font-size': '12px'}"> Add as friend
+        <button ng-if="(user != currentUser) && isNotFriend" class="button button-icon ion-edit calm" ng-controller="FriendshipCtrl" ng-click="sendFriendshipRequest(user)" ng-style="{'font-size': '12px'}"> Add as friend
         </button>
         <img gravatar-src="user.email" class="avatar-profile">
         <h2 class="font-thin">{{user.user_name}}</h2>

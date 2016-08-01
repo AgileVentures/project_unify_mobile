@@ -11,14 +11,14 @@ angular.module('project_unify.controllers', [])
     $scope.confirmFriendshipRequest = function (user) {
       friendService.acceptFriend(user.id, function (data) {
         console.log(data);
-        rootScope.friendship_confirmation_message = data.message;
+        $rootScope.friendship_confirmation_message = data.message;
       });
     }
 
     $scope.blockFriendshipRequest = function (user) {
       friendService.blockFriend(user.id, function (data) {
         console.log(data);
-        rootScope.friendship_block_message = data.message;
+        $rootScope.friendship_block_message = data.message;
       });
     }
   })
@@ -40,6 +40,10 @@ angular.module('project_unify.controllers', [])
     NgMap.getMap().then(function (map) {
       console.log(map.getCenter());
     });
+
+    $rootScope.friendship_block_message = undefined;
+    $rootScope.friendship_request_message = undefined;
+    $rootScope.friendship_confirmation_message = undefined;
 
     $scope.activityFeed = feedService.get();
     $scope.user = $stateParams.user;
@@ -67,6 +71,11 @@ angular.module('project_unify.controllers', [])
     $scope.currentUser = $rootScope.currentUser.user;
     $scope.currentUser.skill_list = $scope.updateSkillList($scope.currentUser);
 
+    //horrible hacking!
+    if ($scope.user && ($scope.user.id != $scope.currentUser.id)){
+      $scope.isNotFriend = !$scope.user.friends.map(function(u){return u.id;}).includes($scope.currentUser.id);
+      $scope.hasInvitedCurrentUser = !$scope.user.friends.map(function(u){return u.id;}).includes($scope.currentUser.id);
+    }
 
     $scope.unifyMe = function (id) {
       $scope.showLoading('Please wait...');
