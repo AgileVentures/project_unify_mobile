@@ -3,7 +3,6 @@ angular.module('project_unify.controllers', [])
   .controller('FriendshipCtrl', function ($rootScope, $scope, friendshipService, friendService) {
     $scope.sendFriendshipRequest = function (user) {
       friendshipService.get({friend_id: user.id}, function (data) {
-        console.log(data);
         $rootScope.friendship_request_message = data.message;
         $rootScope.requestJustSent = true;
       });
@@ -11,7 +10,6 @@ angular.module('project_unify.controllers', [])
 
     $scope.confirmFriendshipRequest = function (user) {
       friendService.acceptFriend(user.id, function (data) {
-        console.log(data);
         $rootScope.friendship_confirmation_message = data.message;
         $rootScope.justConfirmedFriendship = true;
       });
@@ -19,7 +17,6 @@ angular.module('project_unify.controllers', [])
 
     $scope.blockFriendshipRequest = function (user) {
       friendService.blockFriend(user.id, function (data) {
-        console.log(data);
         $rootScope.friendship_block_message = data.message;
         $rootScope.justBlockedFriendship = true;
       });
@@ -39,7 +36,8 @@ angular.module('project_unify.controllers', [])
                                     skillsService,
                                     userService,
                                     feedService,
-                                    $stateParams) {
+                                    $stateParams,
+                                    friendshipStatusService) {
     NgMap.getMap().then(function (map) {
       console.log(map.getCenter());
     });
@@ -79,10 +77,10 @@ angular.module('project_unify.controllers', [])
 
     //horrible hacking!
     if ($scope.user && ($scope.user.id != $scope.currentUser.id)){
-      $scope.isNotFriend = !$scope.user.friends.map(function(u){return u.id;}).includes($scope.currentUser.id);
-      $scope.hasInvitedCurrentUser = $scope.user.pending_invited_friendships.map(function(u){return u.id;}).includes($scope.currentUser.id);
-      $scope.requestPending = $scope.user.pending_friendships.map(function(u){return u.id;}).includes($scope.currentUser.id);
-      $scope.blockedByCurrentUser = $scope.user.blocked_by_current_user;
+      $scope.isFriend = friendshipStatusService.isFriend($scope.user);
+      $scope.hasInvitedCurrentUser = friendshipStatusService.hasInvitedCurrentUser($scope.user);
+      $scope.requestPending = friendshipStatusService.pending($scope.user);
+      $scope.blockedByCurrentUser = friendshipStatusService.blockedByCurrentUser($scope.user);
     }
 
     $scope.unifyMe = function (id) {
@@ -227,7 +225,6 @@ angular.module('project_unify.controllers', [])
     };
 
     $scope.cardSwipedLeft = function (event, index) {
-      console.log(event);
       event.stopPropagation();
     }
 
