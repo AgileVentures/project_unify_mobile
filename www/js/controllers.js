@@ -1,26 +1,26 @@
 angular.module('project_unify.controllers', [])
 
   .controller('FriendshipCtrl', function ($rootScope, $scope, friendshipService, friendService) {
-    $scope.message = "Add as friend";
     $scope.sendFriendshipRequest = function (user) {
       friendshipService.get({friend_id: user.id}, function (data) {
         console.log(data);
         $rootScope.friendship_request_message = data.message;
-        $scope.message = "Request pending";
+        $rootScope.requestJustSent = true;
       });
-    };
+    }
 
     $scope.confirmFriendshipRequest = function (user) {
       friendService.acceptFriend(user.id, function (data) {
         console.log(data);
         $rootScope.friendship_confirmation_message = data.message;
+        $rootScope.justConfirmedFriendship = true;
       });
-    };
+    }
 
     $scope.blockFriendshipRequest = function (user) {
       friendService.blockFriend(user.id, function (data) {
-        console.log(data);
         $rootScope.friendship_block_message = data.message;
+        $rootScope.justBlockedFriendship = true;
       });
     }
   })
@@ -38,7 +38,8 @@ angular.module('project_unify.controllers', [])
                                     skillsService,
                                     userService,
                                     feedService,
-                                    $stateParams) {
+                                    $stateParams,
+                                    friendshipStatusService) {
     NgMap.getMap().then(function (map) {
       console.log(map.getCenter());
     });
@@ -46,6 +47,9 @@ angular.module('project_unify.controllers', [])
     $rootScope.friendship_block_message = undefined;
     $rootScope.friendship_request_message = undefined;
     $rootScope.friendship_confirmation_message = undefined;
+    $rootScope.requestJustSent = false;
+    $rootScope.justBlockedFriendship = false;
+    $rootScope.justConfirmedFriendship = false;
 
     $scope.activityFeed = feedService.get();
     $scope.user = $stateParams.user;
@@ -59,7 +63,6 @@ angular.module('project_unify.controllers', [])
         if (user.id == $scope.currentUser.id) {
           $state.go('tab.profile', {user: $scope.currentUser}, {reload: true});
         } else {
-          console.log(displayUser.user);
           $state.go('tab.profile', {user: displayUser.user}, {reload: true});
         }
       });
@@ -76,9 +79,10 @@ angular.module('project_unify.controllers', [])
 
     //horrible hacking!
     if ($scope.user && ($scope.user.id != $scope.currentUser.id)){
-      $scope.isNotFriend = !$scope.user.friends.map(function(u){return u.id;}).includes($scope.currentUser.id);
-      $scope.requestPending = 'todo';
-      $scope.hasInvitedCurrentUser = !$scope.user.friends.map(function(u){return u.id;}).includes($scope.currentUser.id);
+      $scope.isFriend = friendshipStatusService.isFriend($scope.user);
+      $scope.hasInvitedCurrentUser = friendshipStatusService.hasInvitedCurrentUser($scope.user);
+      $scope.requestPending = friendshipStatusService.pending($scope.user);
+      $scope.blockedByCurrentUser = friendshipStatusService.blockedByCurrentUser($scope.user);
     }
 
     $scope.unifyMe = function (id) {
