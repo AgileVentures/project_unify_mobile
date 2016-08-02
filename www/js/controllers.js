@@ -3,7 +3,6 @@ angular.module('project_unify.controllers', [])
   .controller('FriendshipCtrl', function ($rootScope, $scope, friendshipService, friendService) {
     $scope.sendFriendshipRequest = function (user) {
       friendshipService.get({friend_id: user.id}, function (data) {
-        console.log(data);
         $rootScope.friendship_request_message = data.message;
         $rootScope.requestJustSent = true;
       });
@@ -11,7 +10,6 @@ angular.module('project_unify.controllers', [])
 
     $scope.confirmFriendshipRequest = function (user) {
       friendService.acceptFriend(user.id, function (data) {
-        console.log(data);
         $rootScope.friendship_confirmation_message = data.message;
         $rootScope.justConfirmedFriendship = true;
       });
@@ -227,7 +225,6 @@ angular.module('project_unify.controllers', [])
     };
 
     $scope.cardSwipedLeft = function (event, index) {
-      console.log(event);
       event.stopPropagation();
     }
 
